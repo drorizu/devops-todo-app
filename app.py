@@ -1,3 +1,4 @@
+
 import os
 import sqlite3
 from flask import Flask, request, redirect, render_template_string
@@ -5,7 +6,7 @@ from flask import Flask, request, redirect, render_template_string
 app = Flask(__name__)
 
 DB_PATH = os.environ.get("DB_PATH", "tasks.db")
-
+# Testing GitHub Actions CI/CD pipeline
 HTML = """
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,7 @@ HTML = """
             background: white;
             padding: 30px;
             border-radius: 12px;
+            box-shadow: 0 4px 15px #0001;
         }
         h1 { color: #1e293b; }
         form.add {
@@ -75,9 +77,11 @@ HTML = """
 
     {% for task in tasks %}
     <div class="task">
-        <span class="{{ 'completed' if task[2] else '' }}">
-            {{ task[1] }}
-        </span>
+        <div>
+            <span class="{{ 'completed' if task[2] else '' }}">
+                {{ task[1] }}
+            </span>
+        </div>
         <div style="display:flex; gap:6px">
             <form method="POST" action="/toggle/{{ task[0] }}">
                 <button type="submit">
@@ -125,6 +129,7 @@ def home():
 @app.route("/add", methods=["POST"])
 def add():
     title = request.form.get("title", "").strip()
+
     if title:
         connection = get_db()
         connection.execute(
@@ -132,6 +137,7 @@ def add():
         )
         connection.commit()
         connection.close()
+
     return redirect("/")
 
 
