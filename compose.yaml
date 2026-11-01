@@ -1,0 +1,12 @@
+services:
+  todo-app:
+    build: .
+    container_name: devops-todo
+    ports:
+      - "5000:5000"
+    volumes:
+      - todo-data:/data
+    restart: unless-stopped
+
+volumes:
+  todo-data:
